@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: social-network-analyser
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: Dockerfile

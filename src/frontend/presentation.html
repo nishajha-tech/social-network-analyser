@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Network Analyser | College PPT Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #080c14;
+            --slide-bg: #0f172a;
+            --slide-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-indigo: #6366f1;
+            --accent-violet: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-teal: #14b8a6;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 85%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+        }
+
+        /* Top Bar */
+        .topbar {
+            padding: 0.75rem 1.5rem;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--slide-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .slide-counter {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-top {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid transparent;
+        }
+
+        .btn-dashboard {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            border-color: var(--slide-border);
+        }
+
+        .btn-dashboard:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-fullscreen {
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+            color: #fff;
+        }
+
+        .btn-fullscreen:hover {
+            opacity: 0.9;
+        }
+
+        /* Slide Stage */
+        .stage {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1100px;
+            height: 100%;
+            max-height: 640px;
+            background: var(--slide-bg);
+            border: 1px solid var(--slide-border);
+            border-radius: 20px;
+            padding: 2.2rem 2.8rem;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Slide Components */
+        .slide-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #818cf8;
+            margin-bottom: 0.35rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slide-title {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #ffffff 60%, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .slide-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        .slide-body {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Layout Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.4rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--slide-border);
+            border-radius: 14px;
+            padding: 1.25rem 1.4rem;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.45rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Pill / Badge */
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 9999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .pill-success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .pill-danger {
+            background: rgba(244, 63, 94, 0.15);
+            color: #fb7185;
+            border-color: rgba(244, 63, 94, 0.3);
+        }
+
+        /* Comparison Box */
+        .compare-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .compare-box {
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--slide-border);
+        }
+
+        .compare-box.bad {
+            background: rgba(244, 63, 94, 0.05);
+            border-color: rgba(244, 63, 94, 0.25);
+        }
+
+        .compare-box.good {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+
+        .compare-header {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Code Block */
+        pre {
+            background: #060911;
+            border: 1px solid var(--slide-border);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .code-keyword { color: #818cf8; font-weight: 700; }
+        .code-string { color: #34d399; }
+        .code-comment { color: #64748b; font-style: italic; }
+
+        /* Slide Footer */
+        .slide-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+
+        /* Bottom Controls Bar */
+        .controls {
+            padding: 0.75rem 1.5rem;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--slide-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--slide-border);
+            color: var(--text-primary);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dot.active {
+            width: 24px;
+            border-radius: 9999px;
+            background: #818cf8;
+        }
+
+        /* Title Slide Specifics */
+        .title-slide-content {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .title-badge-wrap {
+            margin-bottom: 1.25rem;
+        }
+
+        .main-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #ffffff 40%, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.85rem;
+            line-height: 1.1;
+        }
+
+        .main-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .meta-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--slide-border);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+        }
+
+        .meta-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .meta-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <header class="topbar">
+        <div class="brand-badge">
+            <div class="brand-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+            </div>
+            <span>Social Network Analyser</span>
+            <span class="pill">PPT Presentation</span>
+        </div>
+
+        <div class="slide-counter" id="slideCounter">Slide 1 / 10</div>
+
+        <div class="top-actions">
+            <a href="index.html" class="btn-top btn-dashboard">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Open Web Dashboard
+            </a>
+            <button class="btn-top btn-fullscreen" id="btnFullscreen" onclick="toggleFullscreen()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                </svg>
+                Fullscreen
+            </button>
+        </div>
+    </header>
+
+    <!-- Slide Stage -->
+    <main class="stage">
+
+        <!-- SLIDE 1: Title Slide -->
+        <section class="slide active" id="slide-1">
+            <div class="slide-body title-slide-content">
+                <div class="title-badge-wrap">
+                    <span class="pill">College CSE Second-Year Project</span>
+                </div>
+                <h1 class="main-title">Social Network Analyser</h1>
+                <p class="main-subtitle">
+                    A complete social connectivity and recommendation simulation built with <strong>Beginner Java DSA</strong> (Classes, Objects, ArrayLists, and Loops) &mdash; strictly without graph algorithms.
+                </p>
+                <div class="meta-grid">
+                    <div class="meta-card">
+                        <div class="meta-label">Domain</div>
+                        <div class="meta-val">Data Structures & OOP</div>
+                    </div>
+                    <div class="meta-card">
+                        <div class="meta-label">Constraint Level</div>
+                        <div class="meta-val" style="color:#818cf8;">Up to Trees Only</div>
+                    </div>
+                    <div class="meta-card">
+                        <div class="meta-label">Backend Tech</div>
+                        <div class="meta-val">Pure Java (Built-in HTTP)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Use Left/Right arrow keys or bottom buttons to navigate</span>
+                <span>Press 'F' for Fullscreen</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: Problem Statement & Objectives -->
+        <section class="slide" id="slide-2">
+            <div class="slide-header">
+                <div class="slide-tag">01 / Motivation & Goals</div>
+                <h2 class="slide-title">Problem Statement & Objectives</h2>
+                <p class="slide-subtitle">Why build a social network analyser using foundational data structures?</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-indigo);">🎯 Real-World Problem</div>
+                        <p class="card-desc">
+                            Platforms like LinkedIn, Facebook, and Instagram rely on connection networks to suggest mutual friends and "People You May Know".
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-teal);">🎓 Academic Curriculum Fit</div>
+                        <p class="card-desc">
+                            Second-year university students have covered DSA up to Trees, but not advanced Graph Theory (BFS/DFS, Adjacency Lists).
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-amber);">⚡ Project Goal</div>
+                        <p class="card-desc">
+                            Implement all core social networking features using only standard OOP, linear lists, and loop comparisons without forcing graph abstractions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 2</span>
+                <span>Core Objectives</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: Strict DSA Restrictions Compliance -->
+        <section class="slide" id="slide-3">
+            <div class="slide-header">
+                <div class="slide-tag">02 / Technical Architecture</div>
+                <h2 class="slide-title">Strict DSA Compliance (No Graphs)</h2>
+                <p class="slide-subtitle">How every requirement is satisfied using only beginner-level DSA concepts.</p>
+            </div>
+            <div class="slide-body">
+                <div class="compare-row">
+                    <div class="compare-box bad">
+                        <div class="compare-header" style="color:var(--accent-rose);">
+                            <span>❌</span> FORBIDDEN (Advanced Graph Concepts)
+                        </div>
+                        <ul style="padding-left:1.2rem; font-size:0.83rem; color:var(--text-secondary); line-height:1.7;">
+                            <li>No Adjacency Matrix or Adjacency List</li>
+                            <li>No Breadth-First Search (BFS) or Depth-First Search (DFS)</li>
+                            <li>No Graph vertex / edge traversal data structures</li>
+                            <li>No Dijkstra or shortest path algorithms</li>
+                        </ul>
+                    </div>
+
+                    <div class="compare-box good">
+                        <div class="compare-header" style="color:var(--accent-emerald);">
+                            <span>✅</span> USED (Beginner-Friendly Concepts)
+                        </div>
+                        <ul style="padding-left:1.2rem; font-size:0.83rem; color:#cbd5e1; line-height:1.7;">
+                            <li><strong>Classes & Objects:</strong> <code>User</code>, <code>Suggestion</code>, <code>NetworkStats</code></li>
+                            <li><strong>ArrayList:</strong> <code>ArrayList&lt;User&gt;</code> & <code>ArrayList&lt;String&gt; friends</code></li>
+                            <li><strong>Loops & Conditionals:</strong> Linear scans & nested comparisons</li>
+                            <li><strong>Sorting:</strong> Beginner Bubble Sort for recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 3</span>
+                <span>Constraint Verification</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: Core Project Features -->
+        <section class="slide" id="slide-4">
+            <div class="slide-header">
+                <div class="slide-tag">03 / System Capabilities</div>
+                <h2 class="slide-title">System Features Overview</h2>
+                <p class="slide-subtitle">All 7 primary capabilities requested in the university brief.</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-title">A. Add User & Prevent Duplicates</div>
+                        <p class="card-desc">Registers a new member by name. Rejects empty names and duplicates via case-insensitive linear search.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">B. Mutual Friendships</div>
+                        <p class="card-desc">Establishes bidirectional friendship between two users. Prohibits self-friendships and repeat connections.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">C. User Directory & Search</div>
+                        <p class="card-desc">Visualizes user cards, connection counts, and real-time name filter search across all registered members.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">D. Mutual Friends & Suggestions</div>
+                        <p class="card-desc">Discovers common friends between any pair and calculates "Friends of Friends" recommendations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 4</span>
+                <span>Features Breakdown</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 5: Mutual Friends Algorithm -->
+        <section class="slide" id="slide-5">
+            <div class="slide-header">
+                <div class="slide-tag">04 / Algorithm 1</div>
+                <h2 class="slide-title">Finding Mutual Friends (Nested Loops)</h2>
+                <p class="slide-subtitle">How common friends are calculated without graph intersections.</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div>
+                        <pre><code><span class="code-comment">// Time Complexity: O(F1 × F2)</span>
+<span class="code-keyword">public</span> ArrayList&lt;String&gt; getMutualFriends(String u1, String u2) {
+    ArrayList&lt;String&gt; mutual = <span class="code-keyword">new</span> ArrayList&lt;&gt;();
+    User user1 = findUser(u1);
+    User user2 = findUser(u2);
+
+    <span class="code-keyword">for</span> (String f1 : user1.getFriends()) {
+        <span class="code-keyword">for</span> (String f2 : user2.getFriends()) {
+            <span class="code-keyword">if</span> (f1.equalsIgnoreCase(f2)) {
+                mutual.add(f1);
+                <span class="code-keyword">break</span>;
+            }
+        }
+    }
+    <span class="code-keyword">return</span> mutual;
+}</code></pre>
+                    </div>
+                    <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+                        <div class="card-title" style="color:var(--accent-teal);">Walkthrough Example</div>
+                        <p class="card-desc" style="margin-bottom:0.8rem;">
+                            Given demo users:
+                            <br>• <strong>Rahul's Friends:</strong> [Priya]
+                            <br>• <strong>Nisha's Friends:</strong> [Priya, Aman]
+                        </p>
+                        <p class="card-desc">
+                            The outer loop takes <code>Priya</code>, inner loop finds <code>Priya</code> in Nisha's list &rarr; Match! 
+                            <br><span class="pill pill-success" style="margin-top:6px;">Result: 1 Mutual Friend (Priya)</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 5</span>
+                <span>Mutual Friends Algorithm</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 6: Friend Suggestions Algorithm -->
+        <section class="slide" id="slide-6">
+            <div class="slide-header">
+                <div class="slide-tag">05 / Algorithm 2</div>
+                <h2 class="slide-title">Friend Suggestions ("Friends of Friends")</h2>
+                <p class="slide-subtitle">2-hop recommendation logic using simple loops and conditions.</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-title">1. Loop Direct Friends</div>
+                        <p class="card-desc">For user <strong>U</strong>, iterate through each direct friend <strong>F</strong> in <code>U.getFriends()</code>.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">2. Loop FoF Candidates</div>
+                        <p class="card-desc">For each <strong>F</strong>, inspect their friends <strong>Candidate</strong> in <code>F.getFriends()</code>.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">3. Filter & Sort</div>
+                        <p class="card-desc">Ensure <code>Candidate != U</code> and <code>!U.isFriend(Candidate)</code>. Sort by mutual count via Bubble Sort.</p>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:1.2rem; background:rgba(99,102,241,0.06); border-color:rgba(99,102,241,0.3);">
+                    <p style="font-size:0.88rem; color:#cbd5e1;">
+                        💡 <strong>Real Demo Outcome:</strong> For user <strong>Rahul</strong>, his friend is Priya. Priya is friends with <strong>Nisha</strong> and <strong>Karan</strong>. Neither is a friend of Rahul yet. The system recommends both Nisha & Karan with badge: <em>"🤝 Connected via Priya"</em>.
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 6</span>
+                <span>Suggestion Mechanics</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 7: Network Analysis & Metrics -->
+        <section class="slide" id="slide-7">
+            <div class="slide-header">
+                <div class="slide-tag">06 / Statistical Insights</div>
+                <h2 class="slide-title">Basic Network Analysis</h2>
+                <p class="slide-subtitle">Calculating structural metrics through single-pass linear loops.</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-4">
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-indigo);">Total Users</div>
+                        <p class="card-desc">Size of the user list: <code>users.size()</code>.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-teal);">Friendships</div>
+                        <p class="card-desc">Sum of all friend counts divided by 2: <code>totalDegrees / 2</code>.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-amber);">Most Popular</div>
+                        <p class="card-desc">User with <code>max(friendCount)</code> via linear max scan loop.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-rose);">Isolated Count</div>
+                        <p class="card-desc">Users with 0 friends: <code>friendCount == 0</code>.</p>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:1.2rem;">
+                    <div class="card-title">Formula Proof: Why Divide by 2?</div>
+                    <p class="card-desc">
+                        Because every friendship is mutual, if User A is friends with User B, both store each other's name. Thus, summing the lengths of all friend lists counts every connection exactly twice. Hence, <strong>Total Unique Friendships = Total Degrees / 2</strong>.
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 7</span>
+                <span>Network Analysis Logic</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 8: Interactive Web UI Architecture -->
+        <section class="slide" id="slide-8">
+            <div class="slide-header">
+                <div class="slide-tag">07 / Implementation & Stack</div>
+                <h2 class="slide-title">Full-Stack Architecture (Zero Bloat)</h2>
+                <p class="slide-subtitle">Lightweight, modern, and completely self-contained without heavy dependencies.</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="card-title">☕ Java Backend</div>
+                        <ul style="padding-left:1.2rem; font-size:0.83rem; color:var(--text-secondary); line-height:1.6;">
+                            <li>Pure Java SE (JDK 17+)</li>
+                            <li>Built-in <code>com.sun.net.httpserver</code></li>
+                            <li>No Spring Boot or Tomcat overhead</li>
+                            <li>Restful JSON API endpoints</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🎨 Modern Frontend</div>
+                        <ul style="padding-left:1.2rem; font-size:0.83rem; color:var(--text-secondary); line-height:1.6;">
+                            <li>Semantic HTML5 & Glassmorphism CSS</li>
+                            <li>Vanilla ES6+ JavaScript controller</li>
+                            <li>Dark & Light theme mode switch</li>
+                            <li>Live Toast error/success banners</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🕸️ Canvas Visualizer</div>
+                        <ul style="padding-left:1.2rem; font-size:0.83rem; color:var(--text-secondary); line-height:1.6;">
+                            <li>Native HTML5 Canvas rendering</li>
+                            <li>Draggable user nodes</li>
+                            <li>Hover glow & connection highlighting</li>
+                            <li>Click node to inspect profile</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 8</span>
+                <span>Technology Stack</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 9: College Viva Q&A -->
+        <section class="slide" id="slide-9">
+            <div class="slide-header">
+                <div class="slide-tag">08 / Examination Readiness</div>
+                <h2 class="slide-title">College Viva Questions & Model Answers</h2>
+                <p class="slide-subtitle">Common questions examiners ask during project evaluation.</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-title" style="color:#818cf8;">Q1: Why did you not use Graph BFS/DFS?</div>
+                        <p class="card-desc">
+                            "Our syllabus is restricted to Trees. Instead of forcing heavy graph structures, we demonstrated how pure OOP encapsulation (User class with internal ArrayList) and linear loops solve network suggestions cleanly and transparently."
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-teal);">Q2: How are duplicate friendships avoided?</div>
+                        <p class="card-desc">
+                            "Before adding, <code>user1.isFriend(user2)</code> runs a linear check. Also, self-friendship is blocked with <code>if (u1.equalsIgnoreCase(u2)) return false;</code>."
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-amber);">Q3: What is the time complexity of suggestions?</div>
+                        <p class="card-desc">
+                            "It is O(D × F), where D is the target user's direct friends count and F is the average friend count of each friend, followed by an O(K²) Bubble Sort for ranking K suggestions."
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title" style="color:var(--accent-rose);">Q4: How does it communicate with the web frontend?</div>
+                        <p class="card-desc">
+                            "Java's built-in <code>HttpServer</code> serves REST API JSON endpoints (<code>/api/network</code>, <code>/api/mutual</code>, <code>/api/user</code>) consumed via JavaScript <code>fetch()</code>."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Social Network Analyser • Slide 9</span>
+                <span>Viva Preparation</span>
+            </div>
+        </section>
+
+        <!-- SLIDE 10: Conclusion & Demo -->
+        <section class="slide" id="slide-10">
+            <div class="slide-header">
+                <div class="slide-tag">09 / Summary</div>
+                <h2 class="slide-title">Conclusion & Live Demo</h2>
+                <p class="slide-subtitle">Complete compliance with all project criteria.</p>
+            </div>
+            <div class="slide-body">
+                <div class="grid-3" style="margin-bottom:1.2rem;">
+                    <div class="card" style="text-align:center;">
+                        <div style="font-size:2rem; margin-bottom:0.4rem;">🎯</div>
+                        <div class="card-title" style="justify-content:center;">All Constraints Met</div>
+                        <p class="card-desc">Zero graphs, pure beginner DSA up to Trees.</p>
+                    </div>
+                    <div class="card" style="text-align:center;">
+                        <div style="font-size:2rem; margin-bottom:0.4rem;">💻</div>
+                        <div class="card-title" style="justify-content:center;">2-In-1 Running Modes</div>
+                        <p class="card-desc">Interactive Web UI + Terminal CLI Menu.</p>
+                    </div>
+                    <div class="card" style="text-align:center;">
+                        <div style="font-size:2rem; margin-bottom:0.4rem;">⚡</div>
+                        <div class="card-title" style="justify-content:center;">Ready to Present</div>
+                        <p class="card-desc">Pre-loaded demo data & instant evaluation.</p>
+                    </div>
+                </div>
+                <div style="text-align:center;">
+                    <a href="index.html" class="btn-top btn-fullscreen" style="padding:10px 24px; font-size:0.95rem;">
+                        🚀 Launch Live Interactive Dashboard
+                    </a>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Thank You! • Social Network Analyser</span>
+                <span>End of Presentation</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Controls Bar -->
+    <footer class="controls">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Previous
+        </button>
+
+        <div class="dots-container" id="dotsContainer">
+            <!-- Dynamic dots -->
+        </div>
+
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
+            Next
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+    </footer>
+
+    <script>
+        const totalSlides = 10;
+        let currentSlide = 1;
+
+        const slideCounter = document.getElementById('slideCounter');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Initialize dots
+        for (let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = `dot ${i === 1 ? 'active' : ''}`;
+            dot.title = `Go to Slide ${i}`;
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateSlideUI() {
+            // Update slides visibility
+            for (let i = 1; i <= totalSlides; i++) {
+                const el = document.getElementById(`slide-${i}`);
+                if (el) el.classList.toggle('active', i === currentSlide);
+            }
+
+            // Update dots
+            const dots = dotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('active', (i + 1) === currentSlide);
+            }
+
+            // Update counter
+            slideCounter.textContent = `Slide ${currentSlide} / ${totalSlides}`;
+
+            // Buttons state
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlideUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlideUI();
+            }
+        }
+
+        function goToSlide(n) {
+            if (n >= 1 && n <= totalSlides) {
+                currentSlide = n;
+                updateSlideUI();
+            }
+        }
+
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            }
+        });
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
+        }
+
+        updateSlideUI();
+    </script>
+</body>
+</html>

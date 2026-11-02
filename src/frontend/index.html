@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Network Analyser | College DSA Project</title>
+  <meta name="description" content="A modern Social Network Analyser built with beginner-friendly Java concepts: Classes, Objects, ArrayLists, and Loops.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark">
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Social Network Analyser</h1>
+          <span class="badge dsa-badge">Pure Java • Beginner DSA (No Graphs)</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-demo" class="btn btn-primary" title="Load Demo Data (Nisha, Priya, Rahul, Aman, Karan)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Load Demo Data
+        </button>
+
+        <button id="btn-reset" class="btn btn-secondary" title="Clear all users and connections">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          Reset Network
+        </button>
+
+        <button id="btn-viva" class="btn btn-ghost" title="View Algorithm & DSA Viva Explainer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Viva Explainer
+        </button>
+
+        <a href="presentation.html" class="btn btn-secondary" title="Open College PPT Presentation Slides" style="text-decoration:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          PPT Presentation
+        </a>
+
+        <button id="theme-toggle" class="btn btn-icon" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+          <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="theme-icon-moon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-layout">
+    
+    <!-- Top Statistics Row -->
+    <section class="stats-grid" id="stats-section">
+      <div class="stat-card" id="card-total-users">
+        <div class="stat-icon-wrapper user-color">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Total Users</span>
+          <h2 class="stat-value" id="stat-total-users">0</h2>
+          <span class="stat-subtext">Registered members</span>
+        </div>
+      </div>
+
+      <div class="stat-card" id="card-total-friendships">
+        <div class="stat-icon-wrapper friend-color">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Unique Friendships</span>
+          <h2 class="stat-value" id="stat-total-friendships">0</h2>
+          <span class="stat-subtext">Bidirectional pairs</span>
+        </div>
+      </div>
+
+      <div class="stat-card" id="card-most-popular">
+        <div class="stat-icon-wrapper crown-color">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Most Popular User</span>
+          <h2 class="stat-value text-accent" id="stat-popular-user">-</h2>
+          <span class="stat-subtext" id="stat-popular-count">0 connections</span>
+        </div>
+      </div>
+
+      <div class="stat-card" id="card-avg-friends">
+        <div class="stat-icon-wrapper avg-color">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Avg Connections</span>
+          <h2 class="stat-value" id="stat-avg-friends">0.0</h2>
+          <span class="stat-subtext" id="stat-isolated-count">0 isolated users</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Interactive Network Canvas & Quick Actions -->
+    <section class="network-visualizer-section card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <h3>Interactive Network Map</h3>
+          <span class="badge pill-badge">Drag & click nodes to inspect</span>
+        </div>
+        <div class="canvas-controls">
+          <button id="btn-recenter" class="btn btn-sm btn-outline" title="Recenter Network Graph">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+            Recenter
+          </button>
+        </div>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="networkCanvas"></canvas>
+        <div id="canvas-overlay-tip" class="canvas-overlay-tip">
+          💡 Tip: Click any user node to instantly view their friends or find suggestions!
+        </div>
+      </div>
+    </section>
+
+    <!-- Operational Panels Grid: Add User & Add Friendship -->
+    <div class="forms-split-grid">
+      
+      <!-- Feature A: Add User Form -->
+      <section class="card form-card" id="add-user-section">
+        <div class="card-header">
+          <div class="icon-circle icon-indigo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="20" y1="8" x2="20" y2="14"></line>
+              <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+          </div>
+          <div>
+            <h3>Add New User</h3>
+            <p class="card-desc">Add a person to the network (no duplicates)</p>
+          </div>
+        </div>
+
+        <form id="form-add-user" class="app-form">
+          <div class="form-group">
+            <label for="input-user-name">User Full Name</label>
+            <div class="input-with-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <input type="text" id="input-user-name" placeholder="e.g. Vikram, Sneha..." required autocomplete="off">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btn-submit-add-user">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Create User
+          </button>
+        </form>
+      </section>
+
+      <!-- Feature B: Add Friendship Form -->
+      <section class="card form-card" id="add-friendship-section">
+        <div class="card-header">
+          <div class="icon-circle icon-teal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="18" y1="8" x2="23" y2="13"></line>
+              <line x1="23" y1="8" x2="18" y2="13"></line>
+            </svg>
+          </div>
+          <div>
+            <h3>Connect Friends</h3>
+            <p class="card-desc">Create mutual friendship between two users</p>
+          </div>
+        </div>
+
+        <form id="form-add-friendship" class="app-form">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="select-friend-1">User 1</label>
+              <select id="select-friend-1" required>
+                <option value="" disabled selected>Select User 1</option>
+              </select>
+            </div>
+            <div class="connect-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8v12M17 20l4-4M17 20l-4-4"/>
+              </svg>
+            </div>
+            <div class="form-group flex-1">
+              <label for="select-friend-2">User 2</label>
+              <select id="select-friend-2" required>
+                <option value="" disabled selected>Select User 2</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-secondary btn-block" id="btn-submit-friendship">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            Establish Friendship
+          </button>
+        </form>
+      </section>
+
+    </div>
+
+    <!-- Interactive Workspace Tabs: Directory, Mutual Friends, Suggestions, Analytics -->
+    <section class="card tabs-container">
+      <div class="tabs-nav" role="tablist">
+        <button class="tab-btn active" data-tab="tab-directory" role="tab" id="tab-btn-directory">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          User Directory & Friends
+        </button>
+
+        <button class="tab-btn" data-tab="tab-mutual" role="tab" id="tab-btn-mutual">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="12" r="6" stroke-opacity="0.8"></circle>
+            <circle cx="15" cy="12" r="6" stroke-opacity="0.8"></circle>
+          </svg>
+          Mutual Friends Finder
+        </button>
+
+        <button class="tab-btn" data-tab="tab-suggestions" role="tab" id="tab-btn-suggestions">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+          Friend Suggestions
+        </button>
+
+        <button class="tab-btn" data-tab="tab-analytics" role="tab" id="tab-btn-analytics">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+          </svg>
+          Network Analysis & Leaderboard
+        </button>
+      </div>
+
+      <!-- Tab 1: User Directory & Search -->
+      <div class="tab-pane active" id="tab-directory" role="tabpanel">
+        <div class="directory-toolbar">
+          <div class="search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="input-search-user" placeholder="Search user by name (Feature G)..." autocomplete="off">
+            <button id="btn-clear-search" class="btn-clear hidden" title="Clear search">&times;</button>
+          </div>
+          <div class="directory-meta">
+            <span id="directory-count-badge" class="badge">Showing all users</span>
+          </div>
+        </div>
+
+        <div id="users-directory-grid" class="users-grid">
+          <!-- Dynamically populated user cards -->
+        </div>
+      </div>
+
+      <!-- Tab 2: Mutual Friends Finder -->
+      <div class="tab-pane" id="tab-mutual" role="tabpanel">
+        <div class="mutual-selector-box">
+          <div class="mutual-input-grid">
+            <div class="form-group">
+              <label for="select-mutual-1">First Person</label>
+              <select id="select-mutual-1">
+                <option value="" disabled selected>Select User 1</option>
+              </select>
+            </div>
+            <div class="mutual-vs-badge">VS</div>
+            <div class="form-group">
+              <label for="select-mutual-2">Second Person</label>
+              <select id="select-mutual-2">
+                <option value="" disabled selected>Select User 2</option>
+              </select>
+            </div>
+            <div class="mutual-btn-wrap">
+              <button id="btn-find-mutual" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                Find Mutual Friends
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mutual Results Display -->
+        <div id="mutual-results-container" class="mutual-results-container">
+          <div class="empty-state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="9" cy="12" r="6"></circle>
+              <circle cx="15" cy="12" r="6"></circle>
+            </svg>
+            <p>Select two users above to find common friends using beginner-friendly nested loops.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Friend Suggestions -->
+      <div class="tab-pane" id="tab-suggestions" role="tabpanel">
+        <div class="suggestions-selector-box">
+          <div class="form-row align-end">
+            <div class="form-group flex-1">
+              <label for="select-suggestion-user">Select User for Recommendations</label>
+              <select id="select-suggestion-user">
+                <option value="" disabled selected>Choose a user to suggest friends for...</option>
+              </select>
+            </div>
+            <button id="btn-get-suggestions" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              Discover Suggestions
+            </button>
+          </div>
+        </div>
+
+        <!-- Suggestions Results -->
+        <div id="suggestions-results-container" class="suggestions-results-container">
+          <div class="empty-state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="20" y1="8" x2="20" y2="14"></line>
+              <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+            <p>Select a user to discover "Friends of Friends" who are not yet connected directly.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Network Analytics & Leaderboard -->
+      <div class="tab-pane" id="tab-analytics" role="tabpanel">
+        <div class="analytics-layout">
+          <div class="analytics-left">
+            <div class="card subcard">
+              <div class="subcard-header">
+                <h4>Connectivity Leaderboard</h4>
+                <span class="badge">Ranked by Friend Count</span>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table" id="table-leaderboard">
+                  <thead>
+                    <tr>
+                      <th>Rank</th>
+                      <th>User</th>
+                      <th>Friends</th>
+                      <th>Network Share</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leaderboard-tbody">
+                    <!-- Dynamic rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-right">
+            <div class="card subcard">
+              <div class="subcard-header">
+                <h4>Network Structural Metrics</h4>
+                <span class="badge badge-accent">Calculated via Simple Loops</span>
+              </div>
+              <div class="metrics-list" id="structural-metrics">
+                <div class="metric-row">
+                  <span class="metric-name">Network Density</span>
+                  <span class="metric-val" id="metric-density">0%</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-name">Connected Users</span>
+                  <span class="metric-val" id="metric-connected-users">0</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-name">Isolated Users</span>
+                  <span class="metric-val" id="metric-isolated-users">0</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-name">Max Connections</span>
+                  <span class="metric-val" id="metric-max-friends">0</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-name">Avg Degree per User</span>
+                  <span class="metric-val" id="metric-avg-degree">0.0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- User Detail Modal -->
+  <div id="user-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-user-info">
+          <div class="avatar-large" id="modal-avatar">U</div>
+          <div>
+            <h3 id="modal-user-name">User Name</h3>
+            <span class="badge" id="modal-user-connections">0 Connections</span>
+          </div>
+        </div>
+        <button id="modal-close" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <h4>Direct Friends List (<span id="modal-friend-count">0</span>)</h4>
+          <div id="modal-friends-list" class="badge-list">
+            <!-- Friend badges -->
+          </div>
+        </div>
+        <div class="modal-actions-row">
+          <button id="modal-btn-find-mutual" class="btn btn-outline btn-sm">Find Mutual Friends</button>
+          <button id="modal-btn-get-suggestions" class="btn btn-primary btn-sm">Get Suggestions</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- College Viva / Project Architecture Explainer Modal -->
+  <div id="viva-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-large">
+      <div class="modal-header">
+        <div class="viva-header-title">
+          <div class="icon-circle icon-indigo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3>Viva & Technical Documentation</h3>
+            <p class="card-desc">College project architecture, algorithms, and DSA reasoning</p>
+          </div>
+        </div>
+        <button id="viva-modal-close" class="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body viva-content">
+        <div class="viva-card">
+          <h4>1. Why No Graphs / Adjacency Lists?</h4>
+          <p>
+            In university computer science syllabi up to Trees, students have not yet covered Graph theory, BFS, DFS, or Adjacency Matrices.
+            This project strictly fulfills the requirements using <strong>Classes, Objects, and ArrayLists</strong>.
+            Friendships are simply mutual entries in each User object's <code>ArrayList&lt;String&gt; friends</code> list.
+          </p>
+        </div>
+
+        <div class="viva-card">
+          <h4>2. Algorithm Explanations for Viva Questions</h4>
+          <ul>
+            <li>
+              <strong>Mutual Friends Logic:</strong> Takes two users, gets their respective friend lists, and performs a <code>for</code> loop nested comparison. If <code>friend1.equalsIgnoreCase(friend2)</code>, it's added to the common list. Time Complexity: <code>O(F1 × F2)</code>.
+            </li>
+            <li>
+              <strong>Friend Suggestions Logic:</strong> Loops through each direct friend <code>F</code> of user <code>U</code>, then loops through each friend <code>FoF</code> of <code>F</code>. If <code>FoF != U</code> and <code>!U.isFriend(FoF)</code>, it is added to the suggestion list with a mutual friend counter.
+            </li>
+            <li>
+              <strong>Preventing Duplicates:</strong> Linear search loop across <code>ArrayList&lt;User&gt;</code> before insertion.
+            </li>
+            <li>
+              <strong>Network Statistics:</strong> Single-pass loop calculating sum of friend counts. Total friendships = <code>totalDegrees / 2</code> because every friendship is mutual.
+            </li>
+          </ul>
+        </div>
+
+        <div class="viva-card">
+          <h4>3. Technology Architecture</h4>
+          <p>
+            • <strong>Backend:</strong> Pure Java (JDK built-in <code>com.sun.net.httpserver.HttpServer</code>). Zero heavy external dependencies (no Spring Boot, no Maven/Gradle required to run).<br>
+            • <strong>Frontend:</strong> Modern responsive HTML5, CSS3, and JavaScript with interactive HTML5 Canvas visualization.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <span>Social Network Analyser • Built with Beginner Java DSA (Classes, ArrayLists, Loops)</span>
+      <span class="footer-credit">College CSE Second-Year Project</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
